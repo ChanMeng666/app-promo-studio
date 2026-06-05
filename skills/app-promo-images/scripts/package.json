@@ -1,0 +1,20 @@
+{
+  "name": "app-promo-studio-scripts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Render scripts for the app-promo-studio plugin (HTML->raster via Playwright, SVG->vector+raster via resvg).",
+  "bin": {
+    "promo-render": "./render.mjs",
+    "promo-render-svg": "./render-svg.mjs"
+  },
+  "scripts": {
+    "render": "node render.mjs",
+    "render-svg": "node render-svg.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "playwright": "^1.60.0",
+    "sharp": "^0.34.2"
+  }
+}

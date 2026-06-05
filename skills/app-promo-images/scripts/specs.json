@@ -1,0 +1,110 @@
+{
+  "_comment": "Size matrix for app promo images. out = [width,height] in device pixels (the EXACT exported size). scale = preferred deviceScaleFactor; render.mjs derives the CSS viewport as out/scale (and falls back to an exact sharp resize if that is not an integer). alpha=false means the platform forbids transparency -> convert.mjs flattens onto the slide background. frame = default device frame for this target (slides may override). aspect is informational. count = max images the store accepts.",
+  "targets": {
+    "appstore-iphone-6.9": {
+      "group": "appstore", "label": "iPhone App Store 6.9\"",
+      "out": [1320, 2868], "scale": 2, "orientation": "portrait",
+      "frame": "phone", "alpha": false, "formats": ["png"], "count": 10,
+      "note": "Primary iPhone size. Apple auto-downscales to smaller iPhones."
+    },
+    "appstore-iphone-6.5": {
+      "group": "appstore", "label": "iPhone App Store 6.5\"",
+      "out": [1284, 2778], "scale": 2, "orientation": "portrait",
+      "frame": "phone", "alpha": false, "formats": ["png"], "count": 10,
+      "note": "Fallback iPhone size if 6.9\" not supplied."
+    },
+    "appstore-ipad-13": {
+      "group": "appstore", "label": "iPad App Store 13\"",
+      "out": [2064, 2752], "scale": 2, "orientation": "portrait",
+      "frame": "tablet", "alpha": false, "formats": ["png"], "count": 10,
+      "note": "Primary iPad size. Use landscape variant by swapping out dims."
+    },
+    "appstore-ipad-13-landscape": {
+      "group": "appstore", "label": "iPad App Store 13\" landscape",
+      "out": [2752, 2064], "scale": 2, "orientation": "landscape",
+      "frame": "tablet", "alpha": false, "formats": ["png"], "count": 10
+    },
+    "mac-appstore": {
+      "group": "appstore", "label": "Mac App Store",
+      "out": [2880, 1800], "scale": 2, "orientation": "landscape",
+      "frame": "mac", "alpha": false, "formats": ["png"], "count": 10,
+      "note": "16:10. Also accepts 1280x800 / 1440x900 / 2560x1600."
+    },
+    "play-phone": {
+      "group": "play", "label": "Google Play phone",
+      "out": [1080, 1920], "scale": 2, "orientation": "portrait",
+      "frame": "phone", "alpha": false, "formats": ["png"], "count": 8,
+      "maxBytes": 8388608, "note": "Min 2, max 8 screenshots. <=8MB each."
+    },
+    "play-feature": {
+      "group": "play", "label": "Google Play feature graphic",
+      "out": [1024, 500], "scale": 2, "orientation": "landscape",
+      "frame": "none", "alpha": false, "formats": ["png"], "count": 1,
+      "maxBytes": 8388608, "note": "Mandatory store banner. No alpha."
+    },
+    "play-icon": {
+      "group": "play", "label": "Google Play app icon",
+      "out": [512, 512], "scale": 2, "orientation": "square",
+      "frame": "none", "alpha": true, "formats": ["png"], "count": 1,
+      "maxBytes": 1048576, "note": "32-bit PNG with alpha allowed, <=1MB."
+    },
+    "desktop-window": {
+      "group": "desktop", "label": "Desktop app window",
+      "out": [2560, 1600], "scale": 2, "orientation": "landscape",
+      "frame": "mac", "alpha": false, "formats": ["png"], "count": 10
+    },
+    "web-hero": {
+      "group": "web", "label": "Web landing hero",
+      "out": [1600, 900], "scale": 2, "orientation": "landscape",
+      "frame": "browser", "alpha": true, "formats": ["png", "webp"], "count": 1
+    },
+    "og": {
+      "group": "social", "label": "Open Graph card",
+      "out": [1200, 630], "scale": 2, "orientation": "landscape",
+      "frame": "browser", "alpha": false, "formats": ["png"], "count": 1,
+      "note": "og:image / Facebook / LinkedIn / X link preview."
+    },
+    "twitter": {
+      "group": "social", "label": "Twitter / X post",
+      "out": [1200, 675], "scale": 3, "orientation": "landscape",
+      "frame": "phone", "alpha": false, "formats": ["png"], "count": 1
+    },
+    "instagram-portrait": {
+      "group": "social", "label": "Instagram portrait",
+      "out": [1080, 1350], "scale": 2, "orientation": "portrait",
+      "frame": "phone", "alpha": false, "formats": ["png"], "count": 1,
+      "note": "4:5, the best-performing IG feed ratio."
+    },
+    "instagram-square": {
+      "group": "social", "label": "Instagram square",
+      "out": [1080, 1080], "scale": 2, "orientation": "square",
+      "frame": "phone", "alpha": false, "formats": ["png"], "count": 1
+    },
+    "instagram-story": {
+      "group": "social", "label": "Instagram / Reels story",
+      "out": [1080, 1920], "scale": 2, "orientation": "portrait",
+      "frame": "phone", "alpha": false, "formats": ["png"], "count": 1,
+      "note": "9:16 full-screen story."
+    },
+    "producthunt": {
+      "group": "social", "label": "Product Hunt gallery",
+      "out": [1270, 760], "scale": 2, "orientation": "landscape",
+      "frame": "browser", "alpha": false, "formats": ["png"], "count": 8,
+      "maxBytes": 3145728, "note": ">=2 images, <=3MB each."
+    },
+    "linkedin": {
+      "group": "social", "label": "LinkedIn post",
+      "out": [1200, 627], "scale": 3, "orientation": "landscape",
+      "frame": "browser", "alpha": false, "formats": ["png"], "count": 1
+    }
+  },
+  "bundles": {
+    "ios": ["appstore-iphone-6.9", "appstore-ipad-13"],
+    "android": ["play-phone", "play-feature", "play-icon"],
+    "mobile": ["appstore-iphone-6.9", "play-phone"],
+    "desktop": ["mac-appstore", "desktop-window"],
+    "web": ["web-hero", "og"],
+    "social": ["og", "twitter", "instagram-portrait", "producthunt", "linkedin"],
+    "all-stores": ["appstore-iphone-6.9", "appstore-ipad-13", "play-phone", "play-feature", "mac-appstore"]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "_comment": "Theme presets. tokens become CSS custom properties on the slide root (and color/font choices for the SVG track). decoration draws background ornaments. Override --accent/--highlight via config.app.brandColor/accentColor.",
+  "default": "purple-gradient",
+  "themes": {
+    "purple-gradient": {
+      "decoration": "sparkles",
+      "fonts": { "headline": "Inter", "highlight": "Fraunces", "body": "Inter" },
+      "tokens": {
+        "--bg": "radial-gradient(120% 120% at 50% 0%, #8b5cf6 0%, #6d28d9 38%, #3b1380 100%)",
+        "--bg-solid": "#4c1d95",
+        "--fg": "#ffffff",
+        "--muted": "#e9d8fd",
+        "--accent": "#c4b5fd",
+        "--highlight": "#f3e8ff",
+        "--bezel": "#0b0b14",
+        "--screen-bg": "#15101f",
+        "--badge-fg": "#3b1380",
+        "--badge-bg": "#f3e8ff",
+        "--deco": "#c4b5fd"
+      }
+    },
+    "dark-playful": {
+      "decoration": "blobs",
+      "fonts": { "headline": "Baloo 2", "highlight": "Baloo 2", "body": "Inter" },
+      "tokens": {
+        "--bg": "linear-gradient(180deg, #20204a 0%, #161636 100%)",
+        "--bg-solid": "#1b1b3a",
+        "--fg": "#ffffff",
+        "--muted": "#c7c7ec",
+        "--accent": "#ff4500",
+        "--highlight": "#ffd400",
+        "--bezel": "#0a0a18",
+        "--screen-bg": "#0f0f24",
+        "--badge-fg": "#1b1b3a",
+        "--badge-bg": "#ffffff",
+        "--deco": "#ff4500"
+      }
+    },
+    "clean-light": {
+      "decoration": "none",
+      "fonts": { "headline": "Inter", "highlight": "Fraunces", "body": "Inter" },
+      "tokens": {
+        "--bg": "linear-gradient(180deg, #ffffff 0%, #eef1f6 100%)",
+        "--bg-solid": "#f4f6fb",
+        "--fg": "#0b0b12",
+        "--muted": "#52525b",
+        "--accent": "#0071e3",
+        "--highlight": "#0071e3",
+        "--bezel": "#0b0b14",
+        "--screen-bg": "#0f0f17",
+        "--badge-fg": "#ffffff",
+        "--badge-bg": "#0b0b12",
+        "--deco": "#c7d2fe"
+      }
+    },
+    "brand-solid": {
+      "decoration": "none",
+      "fonts": { "headline": "Inter", "highlight": "Fraunces", "body": "Inter" },
+      "tokens": {
+        "--bg": "#6d28d9",
+        "--bg-solid": "#6d28d9",
+        "--fg": "#ffffff",
+        "--muted": "#ede9fe",
+        "--accent": "#ffffff",
+        "--highlight": "#fde68a",
+        "--bezel": "#0b0b14",
+        "--screen-bg": "#15101f",
+        "--badge-fg": "#6d28d9",
+        "--badge-bg": "#ffffff",
+        "--deco": "rgba(255,255,255,0.5)"
+      }
+    },
+    "mono": {
+      "decoration": "none",
+      "fonts": { "headline": "Inter", "highlight": "Inter", "body": "Inter" },
+      "tokens": {
+        "--bg": "linear-gradient(180deg, #18181b 0%, #0b0b0f 100%)",
+        "--bg-solid": "#0b0b0f",
+        "--fg": "#fafafa",
+        "--muted": "#a1a1aa",
+        "--accent": "#fafafa",
+        "--highlight": "#a1a1aa",
+        "--bezel": "#000000",
+        "--screen-bg": "#000000",
+        "--badge-fg": "#0b0b0f",
+        "--badge-bg": "#fafafa",
+        "--deco": "#3f3f46"
+      }
+    }
+  }
+}

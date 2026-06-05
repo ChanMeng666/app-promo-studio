@@ -1,0 +1,6 @@
+node_modules/
+promo-out/
+*-out/
+.DS_Store
+Thumbs.db
+*.log

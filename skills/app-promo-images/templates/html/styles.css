@@ -1,0 +1,136 @@
+/* app-promo-studio — slide stylesheet.
+   All sizing is in `em`, where 1em = 1% of the smaller canvas dimension
+   (set as #slide font-size by the renderer). This makes one stylesheet
+   work across every target aspect ratio and pixel size. */
+
+@font-face { font-family: "Inter"; src: url("../../assets/fonts/Inter.ttf"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Fraunces"; src: url("../../assets/fonts/Fraunces.ttf"); font-weight: 100 900; font-style: italic; font-display: block; }
+@font-face { font-family: "Baloo 2"; src: url("../../assets/fonts/Baloo2.ttf"); font-weight: 400 800; font-display: block; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; background: #000; }
+
+#slide {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg, #4c1d95);
+  color: var(--fg, #fff);
+  font-family: var(--font-body, "Inter", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+/* ---------- decorations ---------- */
+.deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.spark { position: absolute; width: 9em; height: 9em; fill: var(--deco, #c4b5fd); opacity: .9; }
+.spark.s1 { top: 6%; right: 10%; width: 11em; }
+.spark.s2 { top: 30%; left: 6%; width: 6em; opacity: .7; }
+.spark.s3 { bottom: 18%; right: 14%; width: 7em; opacity: .8; }
+.spark.s4 { top: 14%; left: 22%; width: 4em; opacity: .6; }
+.spark.s5 { bottom: 8%; left: 12%; width: 5em; opacity: .7; }
+.blob { position: absolute; border-radius: 50%; filter: blur(2em); opacity: .55; }
+.blob.b1 { width: 38em; height: 38em; background: var(--accent); top: -8%; right: -6%; }
+.blob.b2 { width: 30em; height: 30em; background: var(--highlight); bottom: -6%; left: -8%; opacity: .4; }
+.blob.b3 { width: 22em; height: 22em; background: var(--accent); bottom: 12%; right: -4%; opacity: .35; }
+.blob.b4 { width: 18em; height: 18em; background: var(--highlight); top: 10%; left: -4%; opacity: .3; }
+
+/* ---------- stage / layouts ---------- */
+.stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; }
+
+.copy { display: flex; flex-direction: column; gap: 1.6em; }
+.headline {
+  font-family: var(--font-headline, "Inter", sans-serif);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  font-size: 8.2em;
+}
+.highlight {
+  font-family: var(--font-highlight, "Fraunces", serif);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 0.98;
+  font-size: 8.4em;
+  color: var(--highlight, #f3e8ff);
+}
+.sub { font-size: 3.1em; line-height: 1.25; color: var(--muted, #e9d8fd); font-weight: 500; max-width: 22em; }
+.badge {
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 2.5em;
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  background: var(--badge-bg, #f3e8ff);
+  color: var(--badge-fg, #3b1380);
+}
+
+/* .slot wraps the device frame and owns layout placement, so a frame's own
+   internal flex (mac/browser titlebar+screen) never collides with it. */
+.slot { display: flex; min-height: 0; min-width: 0; }
+
+/* headline-top: copy on top, device bleeding off bottom (App Store / Play phone & tablet) */
+#slide[data-layout="headline-top"] .stage { flex-direction: column; align-items: center; text-align: center; padding: 7% 7% 0; }
+#slide[data-layout="headline-top"] .copy { align-items: center; text-align: center; }
+#slide[data-layout="headline-top"] .sub { max-width: 26em; }
+#slide[data-layout="headline-top"] .badge { align-self: center; }
+#slide[data-layout="headline-top"] .slot { margin-top: 5%; flex: 1 1 auto; width: 100%; align-items: flex-end; justify-content: center; }
+#slide[data-layout="headline-top"] .device.phone,
+#slide[data-layout="headline-top"] .device.tablet { height: 100%; margin-bottom: -6%; }
+
+/* side-by-side: copy left, device right (mac / browser / web hero / og / linkedin) */
+#slide[data-layout="side-by-side"] .stage { flex-direction: row; align-items: center; gap: 5%; padding: 6% 6%; }
+#slide[data-layout="side-by-side"] .copy { flex: 0 1 42%; }
+#slide[data-layout="side-by-side"] .headline { font-size: 7em; }
+#slide[data-layout="side-by-side"] .highlight { font-size: 7.2em; }
+#slide[data-layout="side-by-side"] .slot { flex: 1 1 58%; height: 100%; align-items: center; justify-content: center; }
+#slide[data-layout="side-by-side"] .device.phone,
+#slide[data-layout="side-by-side"] .device.tablet { height: 96%; }
+
+/* showcase: copy small on top, device centered (square / social) */
+#slide[data-layout="showcase"] .stage { flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 3%; padding: 7%; }
+#slide[data-layout="showcase"] .copy { align-items: center; text-align: center; }
+#slide[data-layout="showcase"] .headline { font-size: 7.4em; }
+#slide[data-layout="showcase"] .slot { max-height: 64%; flex: 0 1 auto; align-items: center; justify-content: center; }
+#slide[data-layout="showcase"] .device.phone,
+#slide[data-layout="showcase"] .device.tablet { height: 100%; max-height: 60vh; }
+
+/* headline-overlay: copy absolute top, device fills behind */
+#slide[data-layout="headline-overlay"] .stage { flex-direction: column; align-items: center; padding: 0; }
+#slide[data-layout="headline-overlay"] .copy { position: absolute; top: 6%; left: 0; right: 0; z-index: 2; align-items: center; text-align: center; padding: 0 8%; }
+#slide[data-layout="headline-overlay"] .slot { margin-top: 34%; width: 100%; justify-content: center; align-items: flex-start; }
+
+/* ---------- device frames (pure CSS) ---------- */
+.device { position: relative; }
+.screen { position: relative; overflow: hidden; background: var(--screen-bg, #15101f); }
+.shot { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.shot-empty { background: repeating-linear-gradient(45deg, #222 0 2em, #2b2b2b 2em 4em); width: 100%; height: 100%; }
+
+/* phone */
+.device.phone { aspect-ratio: 1170 / 2532; height: 100%; max-height: 100%; border-radius: 6.5em; background: var(--bezel, #0b0b14); padding: 1.1em; box-shadow: 0 4em 8em rgba(0,0,0,.45), inset 0 0 0 .35em rgba(255,255,255,.06); }
+.device.phone .screen { width: 100%; height: 100%; border-radius: 5.4em; }
+.device.phone .island { position: absolute; top: 2.4em; left: 50%; transform: translateX(-50%); width: 11em; height: 3.1em; background: #000; border-radius: 999px; z-index: 3; }
+
+/* tablet */
+.device.tablet { aspect-ratio: 1668 / 2388; height: 100%; max-height: 100%; border-radius: 3.4em; background: var(--bezel, #0b0b14); padding: 2.2em; box-shadow: 0 4em 8em rgba(0,0,0,.4); }
+.device.tablet .screen { width: 100%; height: 100%; border-radius: 1.6em; }
+.device.tablet .cam { position: absolute; top: 1em; left: 50%; transform: translateX(-50%); width: .9em; height: .9em; border-radius: 50%; background: #2a2a2a; z-index: 3; }
+
+/* mac & browser windows */
+.device.mac, .device.browser { display: flex; flex-direction: column; width: 100%; max-width: 100%; border-radius: 2.4em; overflow: hidden; background: var(--screen-bg, #15101f); box-shadow: 0 3em 7em rgba(0,0,0,.45); }
+.device.mac .titlebar, .device.browser .toolbar {
+  height: 5em; display: flex; align-items: center; gap: 1em; padding: 0 2em;
+  background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
+}
+.device.mac .screen, .device.browser .screen { width: 100%; aspect-ratio: 16 / 10; }
+.device.browser .screen { aspect-ratio: 16 / 9; }
+.dot { width: 1.5em; height: 1.5em; border-radius: 50%; }
+.dot.d1 { background: #ff5f57; } .dot.d2 { background: #febc2e; } .dot.d3 { background: #28c840; }
+.wintitle { flex: 1; text-align: center; font-size: 2em; opacity: .7; font-weight: 600; }
+.urlpill { margin-left: 1.5em; flex: 1; max-width: 60%; height: 3em; border-radius: 999px; background: rgba(0,0,0,.28); display: flex; align-items: center; padding: 0 1.5em; font-size: 1.9em; opacity: .85; }
+
+/* bare (icon / feature graphic screenshot card) */
+.device.bare { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.device.bare .screen { width: 100%; height: 100%; border-radius: 3em; box-shadow: 0 3em 7em rgba(0,0,0,.4); }
+#slide[data-layout="showcase"] .device.bare { max-height: 78%; }

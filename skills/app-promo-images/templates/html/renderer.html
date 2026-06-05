@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>app-promo-studio renderer</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="slide" data-layout="headline-top" data-frame="phone" data-orientation="portrait">
+    <div class="deco" id="deco"></div>
+    <div class="stage" id="stage"></div>
+  </div>
+
+  <script>
+    const $ = (sel, root = document) => root.querySelector(sel);
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    }
+
+    function defaultLayout(slide) {
+      if (slide.layout) return slide.layout;
+      const o = slide.canvas.orientation;
+      const f = slide.frame;
+      if (f === "mac" || f === "browser") return "side-by-side";
+      if (f === "none") return "showcase";
+      if (o === "landscape") return "side-by-side";
+      if (o === "square") return "showcase";
+      return "headline-top";
+    }
+
+    function deviceHTML(slide) {
+      const shot = slide.screenshotData
+        ? `<img class="shot" src="${slide.screenshotData}" alt="" />`
+        : `<div class="shot shot-empty"></div>`;
+      const name = esc(slide.appName || "");
+      switch (slide.frame) {
+        case "none":
+          return `<div class="device bare"><div class="screen">${shot}</div></div>`;
+        case "tablet":
+          return `<div class="device tablet"><div class="cam"></div><div class="screen">${shot}</div></div>`;
+        case "mac":
+          return `<div class="device mac"><div class="titlebar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="wintitle">${name}</span></div><div class="screen">${shot}</div></div>`;
+        case "browser":
+          return `<div class="device browser"><div class="toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="urlpill">${name || "app"}</span></div><div class="screen">${shot}</div></div>`;
+        case "phone":
+        default:
+          return `<div class="device phone"><div class="island"></div><div class="screen">${shot}</div></div>`;
+      }
+    }
+
+    function copyHTML(slide) {
+      const head = esc(slide.headline || "");
+      const hi = slide.highlight ? `<div class="highlight">${esc(slide.highlight)}</div>` : "";
+      const sub = slide.subheadline ? `<p class="sub">${esc(slide.subheadline)}</p>` : "";
+      const badge = slide.badge ? `<div class="badge">${esc(slide.badge)}</div>` : "";
+      const h = head ? `<h1 class="headline">${head}</h1>` : "";
+      return `<div class="copy">${h}${hi}${sub}${badge}</div>`;
+    }
+
+    function decoHTML(kind) {
+      if (kind === "sparkles") {
+        const star = (cls) => `<svg class="spark ${cls}" viewBox="0 0 100 100"><path d="M50 0 C54 38 62 46 100 50 C62 54 54 62 50 100 C46 62 38 54 0 50 C38 46 46 38 50 0Z"/></svg>`;
+        return star("s1") + star("s2") + star("s3") + star("s4") + star("s5");
+      }
+      if (kind === "blobs") {
+        return `<span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span>`;
+      }
+      return "";
+    }
+
+    window.__render = function (slide) {
+      const root = $("#slide");
+      const stage = $("#stage");
+      const deco = $("#deco");
+
+      // theme tokens -> CSS variables
+      const t = slide.theme || {};
+      for (const k of Object.keys(t)) root.style.setProperty(k, t[k]);
+
+      // optional transparent background (only meaningful for alpha-capable targets)
+      if (slide.transparent) {
+        root.style.background = "transparent";
+        document.body.style.background = "transparent";
+        document.documentElement.style.background = "transparent";
+      }
+
+      // fonts
+      const fonts = (slide.themeMeta && slide.themeMeta.fonts) || {};
+      root.style.setProperty("--font-headline", `"${fonts.headline || "Inter"}", "Inter", sans-serif`);
+      root.style.setProperty("--font-highlight", `"${fonts.highlight || "Fraunces"}", "Fraunces", serif`);
+      root.style.setProperty("--font-body", `"${fonts.body || "Inter"}", "Inter", sans-serif`);
+
+      // base unit: 1% of the smaller canvas dimension drives all em sizing
+      const base = Math.min(slide.canvas.w, slide.canvas.h) / 100;
+      root.style.fontSize = base + "px";
+
+      const layout = defaultLayout(slide);
+      root.setAttribute("data-layout", layout);
+      root.setAttribute("data-frame", slide.frame);
+      root.setAttribute("data-orientation", slide.canvas.orientation);
+
+      deco.innerHTML = decoHTML((slide.themeMeta && slide.themeMeta.decoration) || "none");
+      stage.innerHTML = copyHTML(slide) + `<div class="slot">${deviceHTML(slide)}</div>`;
+
+      window.__rendered = true;
+      return true;
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Normalize line endings: scripts/text use LF, binaries untouched.
+*.mjs   text eol=lf
+*.js    text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.md    text eol=lf
+*.ttf   binary
+*.png   binary
+*.webp  binary
+*.svg   binary
